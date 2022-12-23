@@ -58,12 +58,9 @@ class Game {
 		if (answer.toLowerCase()[0] === 'y') this.done = false;
 	}
 
-	reset(player, word) {
-		this.done = false;
+	reset() {
+		this.done = true;
 		this.win = false;
-		player.turnsLeft = STARTING_TURNS;
-		player.availableLetters = LETTERS;
-		word.hiddenWord = null;
 	}
 }
 
@@ -71,7 +68,7 @@ class Player {
 	constructor() {
 		this.guess = null;
 		this.turnsLeft = STARTING_TURNS;
-		this.availableLetters = LETTERS;
+		this.availableLetters = LETTERS.slice();
 	}
 
 	makeGuess() {
@@ -107,6 +104,12 @@ class Player {
 	updateAvailableLetters() {
 		this.availableLetters.splice(this.availableLetters.indexOf(this.guess), 1);
 	}
+
+	resetPlayer() {
+		this.guess = null;
+		this.turnsLeft = STARTING_TURNS;
+		this.availableLetters = LETTERS.slice();
+	}
 }
 
 class Word {
@@ -133,6 +136,11 @@ class Word {
 				return avail.includes(letter) ? "_" : letter;
 			}).join(" ");
 	}
+
+	resetWord() {
+		this.word = null;
+		this.hiddenWord = null;
+	}
 }
 
 const currentGame = new Game();
@@ -145,6 +153,9 @@ while (!currentGame.done) {
 	myWord.generateWord();
 	console.log(myWord.word); //remove
 
+	console.log(player)
+	console.log(myWord)
+
 	while (!currentGame.done) {
 		Game.displayBoard(player, myWord);
 		player.makeGuess();
@@ -154,8 +165,10 @@ while (!currentGame.done) {
 		if (currentGame.checkGameStatus(player, myWord));
 	}
 	currentGame.gameover();
+	currentGame.reset();
+	player.resetPlayer();
+	myWord.resetWord();
 	currentGame.playAgain();
-	currentGame.reset(player, myWord);
 }
 
 Game.goodbye();

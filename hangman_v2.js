@@ -151,7 +151,6 @@ Game.welcome();
 
 while (!currentGame.done) {
 	myWord.generateWord();
-	console.log(myWord.word); //remove
 
 	console.log(player)
 	console.log(myWord)

@@ -119,8 +119,6 @@ class Word {
 	}
 
 	generateWord() {
-		console.log("Word generated. Press enter key to continue...");
-		rl.question("");
 		this.word = rw();
 		if (this.word.length < 5) this.word = rw();
 
@@ -141,6 +139,10 @@ class Word {
 		this.word = null;
 		this.hiddenWord = null;
 	}
+
+	revealWord() {
+		console.log(`The word was: ${this.word}`);
+	}
 }
 
 const currentGame = new Game();
@@ -152,9 +154,6 @@ Game.welcome();
 while (!currentGame.done) {
 	myWord.generateWord();
 
-	console.log(player)
-	console.log(myWord)
-
 	while (!currentGame.done) {
 		Game.displayBoard(player, myWord);
 		player.makeGuess();
@@ -164,6 +163,7 @@ while (!currentGame.done) {
 		if (currentGame.checkGameStatus(player, myWord));
 	}
 	currentGame.gameover();
+	myWord.revealWord();
 	currentGame.reset();
 	player.resetPlayer();
 	myWord.resetWord();
